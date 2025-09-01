@@ -8,16 +8,27 @@
   
     <author>
       <personname>&#160;</personname>
-      <department>Phil Trinh and Jennifer Tweedy (2025-26 delivery)</department>
+      <department>Phil Trinh and Jennifer Tweedy (2025-26 delivery) </department>
       <institution>Dept. of Math. Sci., University of Bath</institution>
     </author>
     <date>
       <today />
     </date>
 
+<!--     <paragraphs>
+      <title>Boo hoo</title>
+     <p>
+      Moo
+     </p> 
+    </paragraphs -->
+
     <website>
-      <url href="https://pretextbook.org">My Website</url>
+      <url href="https://trinh.github.io/MA30351_Fluids/">Course website</url>
     </website>
+
+<!--       <image source="rayleigh-turbulence.jpg">
+        <shortdescription>(for accessibility)</shortdescription>
+      </image -->
 
     <copyright>
       <year>2020<ndash />2024</year>
@@ -32,8 +43,8 @@
     <titlepage-items/>
   </titlepage>
 
-  <colophon xml:id="front-colophon">
+  <!-- <colophon xml:id="front-colophon">
     <colophon-items/>
-  </colophon>
+  </colophon> -->
 </frontmatter>
 

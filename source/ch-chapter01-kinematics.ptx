@@ -11,21 +11,51 @@
 
     <p> In the first experiment, we consider a tube filled with water, where the bottom is released
       at time <m>t = 0</m>. One can imagine that the entire column of fluid will fall under the
-      effect of gravity. Each particle within the fluid is accelerated downwards at a constant rate
+      effect of gravity.</p>
+
+      <image source="ch-chapter01-kinematics-tube01.png">
+        <shortdescription>(a) Tube filled with fluid with a plate to be removed; (b) fluid falls under the effect of gravity with uniform acceleration everywhere.</shortdescription>
+      </image>
+    
+    <p>Each particle within the fluid is accelerated downwards at a constant rate
       (gravity). Therefore the velocity of the fluid is given by <m>\bu = (0, 0, -U(t)).</m>
-      Acceleration can be defined simply as the partial derivative in time of the velocity field, or <m>\ba
-      = \pd{\bu}{t} = (0, 0, -\dot{U}(t)) = (0, 0, -g)</m>. </p>
+      In this case, we imagine that acceleration can be defined simply as the partial derivative, in time, of the velocity field, or 
+      <me>\ba
+      = \pd{\bu}{t} = (0, 0, -\dot{U}(t)) = (0, 0, -g),
+    </me>
+    where we have used the over-dot notation for a derivative in time. 
+  </p>
 
     <p>
       However, consider now the second thought experiment of fluid being pumped through the vessel
-      shown in the figure below.
+      shown in the figure below. The fluid has reached a steady-state (so the streamlines of the flow, if you can imagine them, are constant and travelling from left-to-right).
     </p>
 
-    <p> Upstream of the bottleneck, the volume flowrate is equal to the velocity times area, or <m>A_1
-      U_1</m>. This is the amount of fluid that is flowing through a cross section of the pipe
-      upstream. Downstream of the bottleneck, the volume flowrate is <m>A_2 U_2</m>. However, since
+      <image source="ch-chapter01-kinematics-tube02.png">
+        <shortdescription>Fluid pumped through a tube with variable cross-sectional area, <m>A_1, A_2</m> and corresponding velocities <m>U_1, U_2</m>.</shortdescription>
+      </image>
+
+    <p> Upstream of the bottleneck, the volume flowrate is equal to the velocity times area, or <me>
+      \textrm{Upstream flow rate (area times velocity)} = A_1 U_1.
+    </me>
+     This is the amount of fluid that is flowing through a cross section of the pipe
+      upstream. Similarly, we have 
+     <me>
+      \textrm{Downstream flow rate (area times velocity)} = A_2 U_2.
+    </me></p>
+    
+    <p>
+      However, since
       mass must be conserved, that fact that there is a smaller cross-sectional area downstream must
-      mean that the velocity is higher downstream. </p>
+      mean that the velocity is higher downstream. Therefore, <m>U_2 > U_1</m>, and to achieve this, the fluid must therefore have been accelerated somewhere within the channel.</p>
+
+    <p>
+      However, a thought to the situation might convince you that the velocity field in the channel is time-independent: it only changes as a function of its position and is therefore of the form <m>\bu = \bu(\bx)</m>. Indeed, at every fixed point in the channel, the velocity <em>at that point</em> is not changing in time. Therefore, if we use our previous definition that <m>\ba = \dot{\bu}</m> we see that the acceleration would be zero everywhere!
+    </p>
+
+    <p>
+      The crux of the issue, and the difference between the two thought experiments, is that velocity is both a function of space and time, i.e. <m>\bu = \bu(\bx, t)</m>. The change in velocity (acceleration) can therefore derive from changes in <m>\bu</m> at fixed space and variable time; but also due to changes in <m>\bu</m> at fixed time and variable space. Disentangling this leads us to define the nature of Eulerian and Lagrangian coordinates, presented next.
+    </p>
   </introduction>
 
 
@@ -40,6 +70,10 @@
         imagine, for example, fixing sensor station into the ocean bottom, and obtaining
         measurements of the water temperature. </p>
 
+        <image source="ch-chapter01-kinematics-euler-vs-lagrange.png">
+          <shortdescription>(a) The Eulerian interpretation; (b) the Lagrangian interpretation.</shortdescription>
+        </image>
+
       <p> Alternatively, we can imagine tracking of a single fixed particle (or a fluid element)
         within the flow. The particle begins at some position. Let us define a label to describe the
         particle's initial position. For example, if the particle's position is given by <me>
@@ -53,6 +87,8 @@
         \bX</m>, then measuring the temperature of the water as the buoy drifts in the ocean. This
         temperature, we might write as <m>\mathcal{T}(\bX, t),</m> where <m>\bX</m> is simply a
         fixed quantity for the particular buoy. </p>
+
+
     </introduction>
 
     <subsection xml:id="subsec-laglabel">

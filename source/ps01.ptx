@@ -13,6 +13,9 @@
 <!-- </section> -->
 
 <worksheet xml:id="ws-intro">
+  <title>Boo.</title>
+  
+  
   <introduction>
     <p>
       Test.
