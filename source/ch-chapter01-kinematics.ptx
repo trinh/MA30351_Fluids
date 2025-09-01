@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-chapter01-kinematics" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Kinematics</title>
+
+  <introduction>
+
+    <p>
+      There are some unintuitive challenges when it comes to defining even the most basic quantities
+      in fluid dynamics. Consider the following two thought experiments. </p>
+
+    <p> In the first experiment, we consider a tube filled with water, where the bottom is released
+      at time <m>t = 0</m>. One can imagine that the entire column of fluid will fall under the
+      effect of gravity. Each particle within the fluid is accelerated downwards at a constant rate
+      (gravity). Therefore the velocity of the fluid is given by <m>\bu = (0, 0, -U(t)).</m>
+      Acceleration can be defined simply as the partial derivative in time of the velocity field, or <m>\ba
+      = \pd{\bu}{t} = (0, 0, -\dot{U}(t)) = (0, 0, -g)</m>. </p>
+
+    <p>
+      However, consider now the second thought experiment of fluid being pumped through the vessel
+      shown in the figure below.
+    </p>
+
+    <p> Upstream of the bottleneck, the volume flowrate is equal to the velocity times area, or <m>A_1
+      U_1</m>. This is the amount of fluid that is flowing through a cross section of the pipe
+      upstream. Downstream of the bottleneck, the volume flowrate is <m>A_2 U_2</m>. However, since
+      mass must be conserved, that fact that there is a smaller cross-sectional area downstream must
+      mean that the velocity is higher downstream. </p>
+  </introduction>
+
+
+  <section xml:id="sec-eulerlagrang">
+    <title>Eulerian and Lagrangian coordinates</title>
+
+    <introduction>
+      <p> There are essentially two natural ways to think of motion in a fluid. We can imagine
+        positioning ourselves at a fixed point in space, <m>\bx = (x, y, z)</m>. At this point, we
+        then attempt to measure a fluid quantity such as the density, <m>\rho(\bx, t)</m>, or
+        temperature, <m>T(\bx, t)</m>. This is essentially the <em>Eulerian frame</em>. One can
+        imagine, for example, fixing sensor station into the ocean bottom, and obtaining
+        measurements of the water temperature. </p>
+
+      <p> Alternatively, we can imagine tracking of a single fixed particle (or a fluid element)
+        within the flow. The particle begins at some position. Let us define a label to describe the
+        particle's initial position. For example, if the particle's position is given by <me>
+          (x, y, z) = (x_1(t), y_1(t), z_1(t)),
+        </me> we can define the corresponding <em>Lagrangian
+        label</em> as <me>
+          \bX = (X, Y, Z) = (x_1(0), y_1(0), z_1(0)).
+        </me> We then ask for the
+        corresponding measurement of the fluid quantity that corresponds to the label <m>\bX</m>.
+        For example, this is equivalent to tagging a free-floating buoy in the ocean with the label <m>
+        \bX</m>, then measuring the temperature of the water as the buoy drifts in the ocean. This
+        temperature, we might write as <m>\mathcal{T}(\bX, t),</m> where <m>\bX</m> is simply a
+        fixed quantity for the particular buoy. </p>
+    </introduction>
+
+    <subsection xml:id="subsec-laglabel">
+      <title>The convective derivative</title>
+
+      <p>Let us now be more specific. We wish to consider how different quantities in our flow
+        changes with time, but the matter is made complicated by the two above perspectives (fixed
+        or following the flow).</p>
+
+      <p> Again, let us consider a scalar property of the fluid (for example, its density,
+        temperature, velocity component, pressure, etc.), and let us suppose that this quantity is a
+        function of both position, <m>\bx</m>, and time, <m>t</m> and denote it by <m>f(\bx, t)</m>.
+        This is the <em>Eulerian description</em> of the property since it is defined by specifying
+        a fixed position in space. Fixing <m>\bx</m> and then measuring <m>f</m> is akin to standing
+        in the fluid at a fixed location and measuring the property value in time. </p>
+
+      <p> We can alternatively write the property by its Lagrangian description. That is, given a
+        label <m>\bX</m>, we obtain the current position of the particle associated with this label, <m>\bx(\bX,
+        t)</m>, then obtain its property value. This we can write as the following: <me>
+          F(\bX, t) \equiv f(\bx(\bX, t)).
+        </me> Now, fixing <m>\bX</m> corresponds
+        to tracking how <m>f</m> changes as we move with the particle along the deforming fluid. </p>
+
+      <p> There are thus two ways of considering time derivatives. <definition xml:id="def-eulerlag">
+          <statement>
+            <p> We use the normal partial derivative notation to refer to an <em>Eulerian time
+        derivative</em>, considered at a fixed point in space: <me>
+                \pd{}{t} \equiv \pd{}{t} \biggr\rvert_{\bx} = \text{rate of change with $\bx$ held
+        constant}.
+              </me>
+            </p>
+            <p> On the other hand, the <em>Lagrangian time derivative</em> is considered for a fix
+        label. <me>
+                \DD{}{t} \equiv \pd{}{t} \biggr\rvert_{\bX} = \text{rate of change with $\bX$ held
+        constant}.
+              </me>
+        We often refer to the Lagrangian time derivative as the <em>convective derivative</em> or
+        the <em>material derivative</em>. </p>
+          </statement>
+        </definition>
+      </p>
+
+      <remark>
+        <p>
+          The reason why the above derivatives are introduced is because, for the purpose of much of
+          fluid dynamics, it is easier to work with Eulerian coordinates and quantities. However,
+          for the purpose of deriving many governing equations, it turns out to be much easier to
+          work with Lagrangian variables.
+        </p>
+      </remark>
+
+      <p> The natural question is how the two derivatives relate to one another. This is given by
+        the following theorem. <theorem xml:id="thm-convder">
+          <title>The convective derivative</title>
+          <statement>
+            <p> The convective derivative can be defined in terms of Eulerian derivative in the
+        following way: <men xml:id="eqn-DDt">
+                \DD{}{t} = \pd{}{t} + (\bu \cdot \nabla).
+              </men>
+            </p>
+            <proof>
+              <p> This is a result of the chain rule. For a scalar function <m>f = f(\bx, t)</m>, we
+        have the fact that <md>
+                  <mrow>\DD{f}{t} \amp= \DD{t}{t} \pd{f}{t} + \DD{x}{t}\cdot \nabla f </mrow>
+                  <mrow>\amp= \pd{f}{t} + \bu \cdot \nabla f. </mrow>
+                </md>
+              </p>
+            </proof>
+          </statement>
+        </theorem>
+      </p>
+
+      <p>
+        <note>
+          <p>You are asked to work out the above proof more carefully using individual coordinates
+            (instead of vector notation) in the problem set.</p>
+        </note>
+      </p>
+
+      <p> We can now apply the above result to the question of how to calculate the acceleration
+        within the fluid (more specifically, we are enquiring about the acceleration of a volume or
+        particle within the fluid). The acceleration is given by the convective or material
+        derivative of the velocity: <men xml:id="eqn-accel">
+          \ba \equiv \DD{\bu}{t} = \pd{\bu}{t} + (\bu \cdot \nabla) \bu.
+        </men>
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-flowexamples">
+    <title>Examples and flow visualisation</title>
+
+    <p>There are different ways to visualise the dynamics of a fluid. Given the velocity, <m>\bu(\bx,
+      t)</m>, we can plot a vector field at each point in space, and at a fixed moment in time.
+      Little arrows are used to indicate the direction and the length of the arrow can be chosen to
+      represent the magnitude. </p>
+
+    <p>Another representation of the flow is using <em>particle paths</em> and <em>streamlines</em>.
+      Given a point and time, the particle path is the trajectory that would result if a particle
+      were dropped into the flow at that chosen point. It is thus found by solving an equation where
+      at every point on the trajectory, the particle's velocity is the specified velocity of the
+      fluid.</p>
+
+    <p>
+      In the below definition, we define these concepts more concretely.
+    </p>
+
+    <p>
+      <definition xml:id="def-streamline">
+        <title>Particle path and streamlines</title>
+        <statement>
+          <p> Consider a particle whose position is given by <me>
+              \bx_1(t) = (x_1(t), y_1(t), z_1(t)),
+            </me> lying in a fluid
+            with velocity <m>\bu(\bx,
+              t)</m>.</p>
+
+          <p>The <em>particle path</em> for the particle is given by solving the equation <me>
+            \dd{\bx}{t} = \bu(\bx(t), t), \qquad \textrm{with $\bx = \bx_1$},
+            </me>
+            with appropriate initial conditions, i.e. a specified value of <m>\bx_1(0)</m>. </p>
+
+          <p> If it is the case that the velocity is time independent, i.e. <m>\bu = \bu(\bx)</m>,
+            then the particle path is called a <em>streamline</em>. </p>
+        </statement>
+      </definition>
+    </p>
+
+    <p>
+      <remark>
+        <p> Above, we have been somewhat diligent not to abuse notation and distinguish between
+          independent and dependent variables. For example, <m>x</m> is the independent variable
+          that corresponds to an arbitrary spatial location. Therefore, when referring to a
+          particular particle trajectory, we would introduce a new dependent variable, <m>x_1</m>,
+          which depends on time, with <me>
+            x = x_1(t),
+          </me> being the horizontal position of the particle. </p>
+        <p> In many usages, this rigorous distinguishing of dependent and independent variables is
+          commonly abused (because the notation becomes too burdensome). Therefore, we will commonly
+          write e.g. that <me>
+            x = x(t),
+          </me> is the position of the particle. The above abuse of
+          notation uses both <m>x</m> as independent variable (left) and dependent variable (right). </p>
+      </remark>
+    </p>
+
+    <p>
+      Let us practice these concepts.
+    </p>
+    <example>
+      <p> Consider a fluid described by the two-dimensional velocity field <m>\bu = (x, -y, 0)</m>.
+        Derive and plot the streamlines of the flow.</p>
+    <answer>
+      <p> There are many online applications, such as <url
+          href="https://www.desmos.com/calculator/yhubcn7dij"
+          visual="https://www.desmos.com/calculator/yhubcn7dij">this one</url> that will allow you
+        plot a two-dimensional direction field. It is also good to do it yourself by hand. <image
+          source="directionfieldexample.png">
+          <shortdescription>(for accessibility)</shortdescription>
+        </image>
+      </p>
+
+      <p> The particle paths or streamlines of the flow are found by solving the equations: <md>
+          <mrow>\dd{x}{t} \amp= x, </mrow>
+          <mrow>\dd{y}{t} \amp= -y, </mrow>
+          <mrow>\dd{z}{t} \amp= 0. </mrow>
+        </md> Solving thus gives <m>x = A \e^t, y =
+        B\e^{-t}, z = C,</m> for constants <m>A, B, C</m>. </p>
+      <p> You can put initial conditions to determine the constant and plot the trajectories in
+        time. However, in this case, it is easier to remove the time variable entirely. Notice that <me>
+        xy = AB = \textrm{constant}
+        </me> Therefore, the trajectories lie along the
+        above hyperbolae. </p>
+
+      <p> Notice that in this case, the velocity field is time-independent, and therefore the
+        particle paths are <em>streamlines</em>. </p>
+    </answer>
+    </example>
+
+    <example>
+      <statement>
+        <p> Consider the unsteady flow given by <me>\bu = (\cos t, \sin t, 0)</me>. Plot the
+          streamlines of the flow on the plane <m>z = 0</m>, and also the particle trajectories. </p>
+        <!-- <answer>
+          <p>
+            This is.
+          </p>
+        </answer> -->
+      </statement>
+    </example>
+  </section>
+</chapter>

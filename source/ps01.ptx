@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- <section xml:id="sec-ps01">
+  <title>Problem set 1</title>
+
+  <exercise>
+    <p>
+   <xref ref="eqn-DDt"/>
+    </p>
+  </exercise>
+  -->
+
+<!-- </section> -->
+
+<worksheet xml:id="ws-intro">
+  <introduction>
+    <p>
+      Test.
+    </p>
+  </introduction>
+
+  <exercise>
+    <p>Blah.</p>
+  </exercise>
+
+  
+</worksheet>

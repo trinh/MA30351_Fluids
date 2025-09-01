@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-chapter01-equations" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The Euler equations</title>
+
+  <introduction>
+    <p>In this chapter, we develop the basic equations of fluid dynamics. The equations are derived
+      from applying principles of conservation of mass, momentum, and energy. In the simplest
+      scenario, this leads to Euler's equation for a perfect (or ideal) fluid. Eventually, we relax
+      these assumptions so as to incorporate the effects of viscosity.</p>
+
+  <p> Let <m>D</m> be a region in a 2D or 3D region filled with fluid. The fluid is in motion and we
+    wish to describe this motion.</p>
+
+  <p>Let <m>\mathbf{x}\in D</m> be a point in <m>D</m> and consider the particle of fluid that moves
+    through the point <m>\mathbf{x}</m> at time <m>t</m>. In the figure below, we sketch the
+    trajectory that this particle might take within the fluid. Also at the point <m>\mathbf{x}</m>
+    at time <m>t</m>, we let <m>\mathbf{u}(\mathbf{x}, t)</m> be the velocity of the particle. At
+    each fixed time, we can imagine the velocity vectors drawn at each point in the fluid; thus we
+    call <m>\mathbf{u}</m> the <em>velocity field</em> of the fluid. </p>
+
+  <figure xml:id="ch01-fluid">
+    <caption>Image of the fluid domain <m>D</m>.</caption>
+    <image source="ch-chapter01-equations-fluid.png" width="50%" />
+  </figure>
+
+  <p>At each point in space and moment in time, we assume that the fluid has a well-defined mass
+    density, <m>\rho(\mathbf{x}, t)</m>. Let <m>V \subseteq D</m> be any subregion of <m>D</m>. Then
+    the mass of the fluid in <m>V</m> at time <m>t</m> is given by 
+    <men xml:id="eqn-mass">
+    m(t) = \iiint_{V(t)} \rho(\mathbf{x}, t) \, \mathrm{d}V.     
+    </men>
+  </p>
+
+  <remark>
+    <title>Smoothness and well-posedness</title>
+    <p> In most of what follows in this chapter, we shall always assume that the functions <m>
+      \mathbf{u}</m>, <m>\rho</m>, and similarly for others describing fluid quantities are
+      sufficiently smooth that the standard calculus operations can be applied to them. <em>Can you
+      think of some situations in fluid dynamics where smoothness might not be guaranteed?</em>
+    </p>
+  </remark>
+
+  <remark>
+    <title>Continuum assumption</title>
+    <p> The assumption that the fluid can be described by a smooth scalar density field, <m>\rho</m>,
+      is a <em>continuum assumption.</em> This is indeed one of the core assumptions that underlies
+      this course, but it is worth noting that this is only an assumption (albeit a widely accepted
+      one, applicable to most real-life scenarios). On the other extreme of this view is the
+      assumption that the fluid is composed of a discrete set of molecules, all bouncing around, and
+      hence fluid dynamics might be posed as the study of the kinetic motion of molecules! </p>
+  </remark>
+
+  <p> The derivation of the governing equations for a fluid is then based on three basic principles
+    of physics: <ol>
+      <li>
+        <p>
+          <em>Conservation of mass:</em> mass is neither created nor destroyed. </p>
+      </li>
+      <li>
+        <p>
+          <em>Conservation of momentum:</em> the rate of change of momentum of a portion of the
+    fluid is equal to the applied force (Newton's second law). </p>
+      </li>
+      <li>
+        <p>
+          <em>Conservation of energy:</em> energy is neither created nor destroyed. </p>
+      </li>
+    </ol>
+  </p>
+
+  <p>
+    Before starting, though, our first task is to derive some helpful results on the differentiation of quantities such as <xref ref="eqn-mass"/>.
+  </p>
+
+  </introduction>
+
+  <section xml:id="sec-RTT">
+    <title>Reynolds' transport theorem</title>
+
+    <subsection xml:id="subsec-jacob">
+      <title>Jacobian of Lagrangian to Eulerian</title>
+
+      <p> Consider a fluid volume, <m>V \subset D</m>, that is initially dyed a certain colour. The
+        packet of fluid is initially located at <m>V(0)</m>. As the fluid evolves in time, it then
+        occupies the volume <m>V(t)</m> with <m>t > 0</m>. </p>
+
+      <p> As an exmaple, we may express the density of the fluid as <me>
+          \rho = \rho(\bx, t), \qquad \textrm{$\bx \in V(t)$}
+        </me> i.e. at every
+        point in space and moment in time, the above retrieves the density of the fluid within a
+        designated region (which may be changing). This is a natural quantity to study in a fixed
+        frame of the fluid. </p>
+
+      <p> Alternatively, we can write <me>
+          \rho = \rho(\bX, t), \qquad \textrm{$\bX \in V(0)$}
+        </me> which is the
+        density of fluid for those particles making up an originally chosen volume, <m>V(0)</m>.
+        This is a natural quantity to study if we were to move with the fluid; for instance, if we
+        were to colour the volume <m>V(0)</m> with a dye and track its density in time. </p>
+
+      <p> The correspondence between the Euclidean and Lagrangian coordinates is written as <me>
+          \bx = \bx(\bX, t).
+        </me>
+      </p>
+
+      <theorem xml:id="thm-jacobian">
+        <title>Jacobian of Lagrangian to Eulerian</title>
+        <statement>
+          <p>Since we assume the medium is continuous, then we would generally require that the
+            mapping from Lagrangian to Eulerian coordinates is continuous and one-to-one; then the
+            map assigns every element (label) in the original reference configuration, denoted <m>
+            \bX</m>, a unique position, <m>\bx</m>, in the deformed state.</p>
+
+          <p>From Multivariable Calculus, a sufficient condition for this to be true is that the <em>Jacobian
+            of the transformation</em>, <me>
+              J = \pd{\bx}{\bX} = \pd{(x, y, z)}{(X, Y, Z)} =
+              \begin{vmatrix}
+              \pd{x}{X} \amp \pd{x}{Y} \amp \pd{x}{Z} \\
+              \pd{y}{X} \amp \pd{y}{Y} \amp \pd{y}{Z} \\
+              \pd{z}{X} \amp \pd{z}{Y} \amp \pd{z}{Z},
+              \end{vmatrix}
+            </me>
+            is finite and non-zero: <me>
+              0 \lt J \lt \infty.
+            </me>
+          </p>
+        </statement>
+      </theorem>
+
+      <p> The following requires a bit of algebra, and you are not required to prove the result. 
+        <theorem xml:id="thm-Euleridentity">
+          <title>Euler's identity</title>
+          <statement>
+            <p> The material derivative of the Jacobian of the transformation <m>\bx = \bx(\bX, t)</m>
+        is given by <men xml:id="eqn-euler-identity">
+                \DD{J}{t} = J \nabla \cdot \bu,
+              </men> where <m>\bu =
+        \DD{\bx}{t}</m>. </p>
+          </statement>
+
+          <proof>
+            <p>
+              The proof follows from direct differentiation on the determinant and use of the
+        identity of the material derivative.
+            </p>
+          </proof>
+        </theorem>
+
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-RTT">
+      <title>Reynolds transport theorem</title>
+
+      <p> We are now ready to derive a key result that eases our path towards developing the
+        governing equations for a fluid. The result is as follows. <theorem xml:id="thm-RTT">
+          <title>Reynolds transport theorem</title>
+          <statement>
+            <p> Consider a time-dependent volume, <m>V(t)</m>, that is transported by the fluid so
+        that it always consists of the same fluid particles. Then, for any function, <m>f(\bx, t)</m>,
+        continuously differentiable with respect to its arguments, <em>Reynolds' transport theorem</em>
+        is as follows: <men xml:id="eqn-RTT">
+                \dd{}{t} \iiint_{V(t)} f \, \de{x} \, \de{y} \, \de{z} = \iiint_{V(t)} \left[
+        \pd{f}{t} + \nabla \cdot (f\bu)\right] \, \de{x} \, \de{y} \, \de{z}.
+              </men>
+            </p>
+          </statement>
+
+          <proof>
+            <p> We transform the integral in Euclidean coordinates to Lagrangian coordinates,
+        integrating in the label space: <me>
+                I(t) \equiv \iiint_{V(t)} f \, \de{x} \de{y} \de{z}
+                = \iiint_{V(0)} f J \, \de{X} \de{Y} \de{Z},
+              </me>
+        and notice that we now only need to integrate over the fixed volume as defined in Lagrangian
+        space, at the expense of adding the Jacobian factor. We now write <md>
+                <mrow> \dd{I}{t} \amp= \iiint_{V(0)} \DD{(fJ)}{t} \, \de{X}\de{Y}\de{Z} </mrow>
+              </md>
+        and the material derivative passes through since the domain is fixed. The <xref
+                ref="thm-convder" /> now allows us to convert the material derivative to regular
+        partial derivatives. By the chain rule: <md>
+                <mrow>\DD{(fJ)}{t} \amp= \DD{f}{t}J + f\DD{J}{t} </mrow>
+                <mrow> \amp= \left[ \pd{f}{t} + \bu \cdot \nabla f\right]J
+                  + f \left[J \nabla \cdot \bu\right] </mrow>
+                <mrow> \amp= \left[ \pd{f}{t} + \nabla \cdot (f\bu) \right]J </mrow>
+              </md>
+        and we have differentiated the Jacobian via Euler's identity <xref ref="thm-Euleridentity" />
+        in the second line. The last line follows from the chain rule applied to the vector
+        identity: <me>
+                \nabla \cdot (f\bu) = f \nabla \cdot \bu + \nabla f \cdot \bu.
+              </me>
+        We can now revert from Lagrangian to Eulerian integration, and this thus completes the proof
+        of the Reynolds' transport theorem. <note>
+                <p>It is helpful for you to convince yourself that the above vector identity is the
+        only possible arrangement of operations that makes sense, i.e. in order for <m>\nabla \cdot
+        (f\bu)</m> to return a scalar.</p>
+              </note>
+
+            </p>
+          </proof>
+        </theorem>
+      </p>
+
+      <p>
+        <remark>
+          <p>Reynolds' transport theorem thus gives an identity for how time differentiation can
+            pass through the integral when the domain of integration is changing in time!</p>
+        </remark>
+      </p>
+
+      <p>
+        <remark>
+          <p>
+            In 1D, Reynolds transport theorem reduces to an identity known as Leibniz's rule. This
+            will be proven in your problem sets.
+          </p>
+        </remark>
+      </p>
+
+    </subsection>
+  </section>
+
+  <section>
+    <title>Conservation of mass</title>
+
+    <p>
+    Our task from this section is to prove the following equation for the conservation of mass of a fluid:
+      <theorem xml:id="thm-mass">
+        <title>Continuity equation</title>
+        <statement>
+          <p> The differential form of the law of conservation of mass, otherwise known as the <em>continuity
+      equation</em> is 
+              <men xml:id="eqn-consvmass1">
+                \pd{\rho}{t} + \nabla \cdot (\rho \bu) = 0,
+              </men>
+          where <m>\rho = \rho(\bx,t)</m> is the density of the fluid and <m>\bu = \bu(\bx, t)</m> is the velocity of the fluid.
+          </p>
+
+          <p>
+            The above form is equivalent, by the definition of the convective derivative, to 
+            <men xml:id="eqn-consvmass2">
+             \DD{\rho}{t} + \rho(\nabla \cdot \bu) = 0. 
+            </men>
+            
+          </p>
+        </statement>
+      </theorem>
+    </p>
+
+    <p>
+      In fact, as it turns out, the proof of this result is trivial if we use the Reynolds' transport theorem and Lagrangian formulation following <xref ref="thm-RTT"/>.</p>
+
+      <proof>
+        <p>
+          We consider the time differentiation of the mass integral. By <xref ref="thm-RTT"/>, we can use the Reynolds' transport theorem to pass the time derivative through the integral. This gives:
+          <me>
+            \dd{}{t}\iiint_{V(t)} \rho \de{V} = \iiint_{V(t)} \left[ \pd{\rho}{t} + \nabla \cdot (\rho \bu)\right] \, \de{V},
+          </me>
+          which is satisfied for any volume <m>V \subseteq D</m> where the fluid is defined. Since the result is true for any such possible volume, then the integrand of the right hand-side, itself, must be zero. This gives immediately <xref ref="eqn-consvmass1"/>. 
+        </p>
+        <p>
+          The proof of <xref ref="eqn-consvmass2"/> follows immediately from application of the definition of the convective derivative <xref ref="eqn-DDt"/>.
+        </p>
+      </proof>
+
+
+    <subsection>
+      <title>Derivation of mass conservation using Eulerian methods</title>
+      
+      <p>
+        The derivation we have just shown for <xref ref="thm-mass"/>, using the Lagrangian viewpoint and the Reynolds' transport theorem is misleadingly simple, and it can be instructive to see how the result is proved purely from the perspective of Eulerian coordinates. 
+      </p>
+
+    <p> For this, let us consider <m>V</m> to be a <em>fixed and closed</em> subregion of the overall fluid, <m>D</m> that does not change with time. An illustration of this is shown in <xref ref="fig-normalvolume"/>
+
+      <figure xml:id="fig-normalvolume">
+        <caption>Picture of the fluid volume, <m>V</m>, shown in blue, with a small surface element, <m>\partial V</m>, and the outwards flux.</caption>
+        <image source="ch-chapter01-equations-09-54-13.png" width="60%">
+          <shortdescription>Fluid</shortdescription>
+        </image>
+      </figure>
+    </p>
+
+    <p>We want to prove the following result, which essentially equates the change in mass, due to density changes, to the flow of mass in or out of the volume. 
+
+      <theorem>
+        <title>Integral form of the law of conservation of mass</title>
+        <p>Given a fixed volume element <m>V</m> and boundary <m>\partial V</m>, the integral form of the
+      law of mass conservation is</p>
+      <men xml:id="eqn-integralconservation">
+        \dd{}{t} \iiint_V \rho \, \de{V} = -\iint_{\partial V} \rho \bu \cdot \bn \, \de{S}.
+      </men>
+      </theorem>
+
+<proof>
+     <p> The
+      rate of change of mass in <m>V</m> is
+       <me>
+        \dd{}{t} \iiint_V \rho(\bx, t) \, \de V = \iiint_V \pd{\rho}{t} \, \de V,
+      </me> and note the derivative passes
+      through the integral since the volume, <m>V</m>, does not change with time. </p>
+    <p> Let the boundary of <m>V</m> be given by <m>\partial V</m>, and let <m>\bn</m> denote the
+      outward unit normal defined along the boundary <m>\partial V</m>. At each point on the
+      boundary, the volume flow rate (known as the <em>flux</em>) across the boundary is given by <m>\bu
+      \cdot \bn</m> and therefore the mass flow rate is <m>\rho \bu \cdot \bn</m>. 
+    </p>
+    <p> We now sum the total mass flow across the entire boundary. This is given by the surface
+      integral <me>
+        \text{rate of mass change across $\partial V$} = \iint_{\partial V} \rho \bu \cdot \bn \,
+      \de{S}.
+      </me>
+      The flux out of the boundary is also sketched in <xref ref="fig-normalvolume"/>.
+    </p>
+
+      <p>
+      Mass conservation is now applied. Therefore, the rate of change of pass in the volume <m>V</m>
+      is equal to the rate at which mass enters the boundary in the <em>inwards</em> direction. 
+    </p>
+  </proof>
+    </p>
+      
+    <p> We now want to transform the integral form in <xref ref="eqn-integralconservation"/> into the form of a partial differential equation.
+      To do this, apply the <em>Divergence theorem</em> to the right hand-side of the above
+      integral, converting the surface integral to a volume integral. Moving all quantities to the
+      left hand side now yields <me>
+        \iiint_V \left[ \pd{\rho}{t} + \nabla \cdot (\rho \bu)\right] \, \de{V} = 0.
+      </me>
+      Since the above integral equation holds for all possible <m>V</m>, it must be equivalent to
+      the integrand equated to zero. This yields our final result leading to <xref ref="thm-mass"/>.
+    </p>
+    </subsection>
+
+    <subsection xml:id="subsec-cor-consvmass">
+      <title>Corollary of the Transport Theorem</title>
+      
+    <corollary xml:id="cor-convmass">
+      <statement>
+        <p>
+         There is a useful corollary to the transport theorem in <xref ref="thm-RTT"/> in the case where the desired function of integration, <m>f</m>, is proportional to the density, i.e. <m>f = \rho h</m> for any continuously differentiable <m>h</m>. In this case the Reynolds transport theorem is 
+         <men xml:id="eqn-cor-convmass">
+         \dd{}{t} \iiint_{V} \rho h \, \de{V} = \iiint_{V} \rho \DD{h}{t} \, \de{V}.
+         </men>
+        </p>
+      </statement>
+
+      <proof>
+        <p>
+          This is left as an exercise. It will be useful for you to consider the vector identity
+          <me>
+            \nabla \cdot (f\bu) = \nabla f \cdot \bu + f \nabla \cdot \bu.
+          </me>
+          
+        </p>
+      </proof>
+    </corollary>
+
+    </subsection>
+   </section>
+
+
+  <section xml:id="subsec-euler-momentum">
+    <title>Momentum balance</title>
+
+    <p>
+      With mass conservation now handled, we turn our eyes towards a law that governs the conservation of momentum. This is <em>Newton's second law</em> the rate of change of momentum of a body is equal to the sum of all forces acting on the body. 
+    </p>
+
+
+        <p>
+    Our task from this section is to prove the following equation for the conservation of mass of a fluid:
+      <theorem xml:id="thm-momentum">
+        <title>Momentum equation</title>
+        <statement>
+          <p> The differential form of the law of conservation of momentum, is              
+            <men xml:id="eqn-consvmoment">
+               \rho \DD{\bu}{t} = \rho \left(\pd{u}{t} + \bu \cdot \nabla\bu\right) = - \nabla p + \rho \bg 
+              </men>
+          where <m>\rho = \rho(\bx,t)</m> is the density of the fluid, <m>\bu = \bu(\bx, t)</m> is the velocity of the fluid, <m>p = p(\bx, t)</m> is the pressure, and <m>\bg</m> is the acceleration due to a body force (typically gravity).
+          </p>
+        </statement>
+      </theorem>
+    </p>
+
+    <subsection>
+      <title>Proof of the momentum equation for an inviscid fluid</title>
+      
+
+    <p>
+      Consider again a material volume <m>V(t)</m> of the fluid. Then the rate of change of net momentum of this volume is equal to 
+      <men xml:id="eqn-momentum1">
+       \dd{}{t} \iiint_{V(t)} \rho \bu(\bx, t) \, \de{V}. 
+      </men>
+      It is helpful to remember that the mass of a volume element is <m>\rho \de{V}</m> and the acceleration is <m>\dd{\bu}{t}</m>, so the above is similar to mass times acceleration. However, we work with the more general form above to allow for changes in the density throughout the fluid, and also for variable fluid elements, <m>V(t)</m>.
+    </p>
+
+
+
+    <p>
+      We must equate the above to the sum of all surface and body forces applied to the fluid element.
+    </p>
+
+    <p>
+      An example of a body force is the force of gravity. For a small volume element of mass <m>\rho \de{V}</m>, the force of gravity is equal to <m>(\rho \de{V})\bg</m>. Therefore, the total external force due to gravity on the volume is equal to 
+      <men xml:id="eqn-momentum2">
+       \iiint_{V} \rho \bg \, \de{V}.
+      </men>
+      There may be other external body forces. For example, if your fluid is electrically conductive (like a plasma), there may be electromagnetic forces that must be considered. In any case, <m>\bg</m> can be considered as the analogous body force.
+    </p>
+
+    <p>
+      The final type of forces we should consider are <em>surface forces</em>, which are applied to the boundary of the fluid element, denoted <m>\partial V</m>. Let us assume that at each point on the boundary, there is a per-surface area surface force, <m>\bF</m>, that decomposes into component normal to the boundary, <m>F_n \bn</m>, and a component tangential to the boundary, <m>F_t \bt</m>. So the surface forces, summed over the boundary, will be 
+      <men xml:id="eqn-momentum-force">
+        \iint_{\partial V} \left[ F_n \bn + F_t \bt\right] \, \de{S}.
+      </men>
+      In the above, the interpretation is that the force on a small patch of surface area <m>\de{S}</m> is equal to the per-area force, say <m>F_n</m>, multiplied by the area, then directed into the normal direction, <m>\bn</m>.
+    </p>
+
+    <p>
+      At this point, we make a key assumption that is applied in the particular case of <em>inviscid fluids</em>.
+
+      <theorem xml:id="def-inviscid">
+        <statement>
+          <p>
+           In the case of <em>inviscid fluids</em>, we assume that the surface pressure exerted on (interior) volume elements is accounted solely by a pressure, <m>p</m>, which acts in the inward normal direction at each point, with <m>F_n \bn = -p \bn</m>. Consequently, the surface force, given by <xref ref="eqn-momentum-force"/>, is 
+           <men xml:id="eqn-eqn-momentum-pressure">
+            \iint_{\partial V} (-p) \bn \, \de{S} = \iiint_V (-\nabla p) \, \de{V}.
+           </men>
+          </p>
+          <p>
+            In particular, for the case of inviscid fluids, we ignore tangential internal forces. 
+          </p>
+        </statement>
+
+        <proof>
+          <p>
+            The result follows by a corollary of the diverence theorem. The divergence theorem is
+            <me>
+              \iiint_V \nabla \cdot \bF \, \de{V} = \iint_{\partial V} \bF \cdot \bn \, \de{S}.
+            </me>
+            Let <m>\bF = p \boldsymbol{c}</m> where <m>\boldsymbol{c} = [1, 1, 1]</m> and apply to the above.
+          </p>
+        </proof>
+      </theorem>
+    </p>
+
+    <p>
+      Finally, it follows by summation of the forces above that Newton's law states that 
+      <me>
+       \dd{}{t} \iiint_{V(t)} \rho \bu(\bx, t) \, \de{V} = -\iiint_V (\nabla p) \, \de{V} + \iiint \rho \bg \, \de{V}.
+      </me>
+     We can now use the corollary to the transport theorem <xref ref="cor-convmass"/>, with the assignment of <m>f = \rho u_x, \rho u_y, \rho u_z</m> and this allows us to the conclude that 
+     <me>
+      \iiint_{V} \left( \rho \DD{\bu}{t} + \nabla p - \rho \bg\right) \, \de{V} = 0.
+     </me>
+    Again, the above holds for all material volumes <m>V</m> and therefore it must follow that the integrand is zero. We conclude thus with the following result as stated at the start of this section.
+    <me>
+    \rho \DD{\bu}{t} = - \nabla p + \rho \bg.
+    </me>
+    
+    </p>
+
+    
+
+    </subsection>
+  </section>
+  
+
+</chapter>
